@@ -27,4 +27,4 @@ def load_model() -> keras.Model:
 
         print("✅ Model loaded from local disk")
 
-        return latest_model
+        return latest_mode

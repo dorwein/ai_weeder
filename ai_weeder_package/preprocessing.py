@@ -2,11 +2,13 @@ import numpy as np
 import cv2
 from tensorflow.keras.applications.vgg16 import preprocess_input
 
-def resize_img(img,
-                out_height = 128,    # default, can alter
-                out_width = 128):     # default, can alter
+def resize_and_expand(img,
+                out_height = 128,    # defaults, can alter
+                out_width = 128,
+                expand = True):
     """
     Reshapes an image to desired dimensions
+    Expands to tensor for prediction (default = True)
     """
 
     img = np.array(img)
@@ -19,11 +21,14 @@ def resize_img(img,
     else:
         pass
 
+    if expand == True:
+        img = np.expand_dims(img, axis=0)
+
     return img
 
 def vgg16_preproc(img):
     '''
-    Implements VGG16 processing function
+    Implements VGG16 processing function on input image
     '''
     img = preprocess_input(img)
 

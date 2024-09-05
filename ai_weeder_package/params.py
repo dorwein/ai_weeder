@@ -17,6 +17,6 @@ CLASS_NAMES = ['Black-grass',
                 'Loose Silky-bent',
                 'Maize',
                 'Scentless Mayweed',
-                'Shepherds Purse',
+                'Shepherds Purse', # should this be "Shepherds" or "Shepherd's"? I've seen both in our code
                 'Small-flowered Cranesbill',
                 'Sugar beet']

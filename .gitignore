@@ -43,5 +43,8 @@ models/
 secrets.toml
 *.json
 
-# User defined extras
-# Complete to your desire
+# Notebooks
+notebooks/
+
+# Old packaging
+ai_weeder_package_0/

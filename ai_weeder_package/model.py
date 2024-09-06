@@ -1,4 +1,4 @@
-from params import *
+from ai_weeder_package.params import *
 import glob
 import os
 from tensorflow import keras
@@ -9,22 +9,23 @@ def load_model() -> keras.Model:
     Return None (but do not Raise) if no model is found
     """
 
-    if MODEL_TARGET == "local":
-        print("Load latest model from local registry...")
 
-        # Get the latest model version name by the timestamp on disk
-        local_model_directory = os.path.join(LOCAL_REGISTRY_PATH, "models")
-        local_model_paths = glob.glob(f"{local_model_directory}/*")
+    print("Load latest model from local registry...")
 
-        if not local_model_paths:
-            return None
+    # Get the latest model version name by the timestamp on disk
+    local_model_directory = os.path.join(LOCAL_REGISTRY_PATH, "models")
+    local_model_paths = os.path.join(f"{local_model_directory}/balanced&augmentated_vgg16_model.keras")
+    print(local_model_paths)
 
-        most_recent_model_path_on_disk = sorted(local_model_paths)[-1]
+    if not local_model_paths:
+        return None
 
-        print("Load latest model from disk...")
+    #most_recent_model_path_on_disk = sorted(local_model_paths)[-1]
 
-        latest_model = keras.models.load_model(most_recent_model_path_on_disk)
+    print("Load latest model from disk...")
 
-        print("✅ Model loaded from local disk")
+    latest_model = keras.models.load_model(local_model_paths)
 
-        return latest_model
+    print("✅ Model loaded from local disk")
+
+    return latest_model

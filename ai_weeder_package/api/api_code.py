@@ -2,8 +2,8 @@ from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.responses import Response
 #########################################
-from ai_weeder_packaging.model import load_model
-from ai_weeder_packaging.preprocessing import resize_and_expand, vgg16_preproc
+from ai_weeder_package.model import load_model
+from ai_weeder_package.preprocessing import resize_and_expand, vgg16_preproc
 #########################################
 import numpy as np
 import cv2

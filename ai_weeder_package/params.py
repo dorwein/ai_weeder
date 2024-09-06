@@ -20,3 +20,17 @@ CLASS_NAMES = ['Black-grass',
                 'Shepherds Purse', # should this be "Shepherds" or "Shepherd's"? I've seen both in our code
                 'Small-flowered Cranesbill',
                 'Sugar beet']
+
+CLASS_DICT = {0: 'Black-grass' ,
+                1: 'Charlock',
+                2: 'Cleavers',
+                3: 'Common Chickweed',
+                4: 'Common wheat',
+                5: 'Fat Hen',
+                6: 'Loose Silky-bent',
+                7: 'Maize',
+                8: 'Scentless Mayweed',
+                9: 'Shepherds Purse',
+                10: 'Small-flowered Cranesbill',
+                11: 'Sugar beet'
+                }

@@ -28,3 +28,22 @@ def load_model() -> keras.Model:
         print("✅ Model loaded from local disk")
 
         return latest_model
+
+def predict(model, img):
+
+    '''
+    Get a prediction from the loaded model, UNTESTED
+    '''
+
+    pred = model.predict(img)
+
+    # Getting class label
+    predicted_class_key = np.argmax(pred, axis=1)[0]
+    predicted_class_label = CLASS_DICT.get(predicted_class_key)
+
+    # Getting predition probability
+    probability = np.max(pred, axis=1)[0]
+
+    print(f"Predicted Plant:  {predicted_class_label}\nProbability:      {probability:.2f}")
+
+    return probability

@@ -1,5 +1,5 @@
 import numpy as np
-import cv2
+import cv2 # to install use: pip install opencv-python
 from tensorflow.keras.applications.vgg16 import preprocess_input
 
 def resize_and_expand(img,

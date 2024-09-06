@@ -1,6 +1,0 @@
-opencv-python
-
-# Trick to install the version of Tensorflow depending on your processor: darwin == Mac, ARM == M1
-tensorflow==2.10.0
-
-numpy

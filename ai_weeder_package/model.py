@@ -1,4 +1,4 @@
-from params import *
+from ai_weeder_package.params import *
 import glob
 import os
 from tensorflow import keras

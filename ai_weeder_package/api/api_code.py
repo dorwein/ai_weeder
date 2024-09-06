@@ -2,8 +2,8 @@ from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.responses import Response
 #########################################
-from packaging.registry import load_model
-from packaging.preprocessing import preprocess_features
+from ai_weeder_packaging.model import load_model
+from ai_weeder_packaging.preprocessing import resize_and_expand, vgg16_preproc
 #########################################
 import numpy as np
 import cv2
@@ -46,7 +46,7 @@ async def receive_image(img: UploadFile=File(...)):
     #preprocessing given picture, but i think I need the picture as actual picture not as nd.array?
     #not sure i will have to look at the function
     #preprocess_features should take an array and return the preproceesed array
-    img_processed = preprocess_features(cv2_img)
+    img_processed = resize_and_expand(cv2_img)
     #predicting the probability
     y_pred_proba = model.predict_proba(img_processed)
     #returning the top three guessed classes

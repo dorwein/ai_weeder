@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from starlette.responses import Response
 
 #########################################
+from ai_weeder_package.params import *
 from ai_weeder_package.model import load_model
 from ai_weeder_package.preprocessing import resize_and_expand
 #########################################
@@ -10,6 +11,7 @@ from ai_weeder_package.preprocessing import resize_and_expand
 import numpy as np
 import cv2
 import io
+import json
 
 
 app = FastAPI()
@@ -29,31 +31,18 @@ app.state.model = load_model()
 
 
 
-weeds_dict = {'Black-Grass': 'weed' ,
+weeds_dict = {'Black-grass': 'weed' ,
  'Charlock':'weed',
  "Cleavers":'weed',
  "Common Chickweed":'weed',
  "Common wheat":'weed',
  "Fat Hen":'weed',
  "Loose Silky-bent":'weed',
- "Maize":'no weed',
+ "Maize":'not weed',
  "Scentless Mayweed":'weed',
  "Shepherd’s Purse":'weed',
  "Small-flowered Cranesbill":'weed',
- "Sugar beet":'no weed' }
-
-CLASS_NAMES = ['Black-grass',
-                'Charlock',
-                'Cleavers',
-                'Common Chickweed',
-                'Common wheat',
-                'Fat Hen',
-                'Loose Silky-bent',
-                'Maize',
-                'Scentless Mayweed',
-                'Shepherds Purse', # should this be "Shepherds" or "Shepherd's"? I've seen both in our code
-                'Small-flowered Cranesbill',
-                'Sugar beet']
+ "Sugar beet":'not weed' }
 
 
 @app.get("/")
@@ -88,21 +77,24 @@ async def receive_image(img: UploadFile=File(...)):
     top_probabilities = [probabilities[0][i] for i in top_indices]
     top_predictions = [weeds_dict[class_name] for class_name in top_classes]
 
-
+    results_dict = {
+        'types': {
+            'first_feature': top_classes[0],
+            'second_feature': top_classes[1],
+            'third_feature': top_classes[2]
+        },
+        'probabilities': {
+            'first_feature': float(top_probabilities[0]),
+            'second_feature': float(top_probabilities[1]),
+            'third_feature': float(top_probabilities[2])
+        },
+         'weed_or_not': {
+             'first_feature': top_predictions[0],
+             'second_feature': top_predictions[1],
+             'third_feature': top_predictions[2]
+         }
+    }
 
     #uvicorn api.api:app --reload
 
-
-
-    return {
-        'probabilities': {
-            'first_feature': top_probabilities[0],
-            'second_feature': top_probabilities[1],
-            'third_feature': top_probabilities[2]
-        },
-        'weed_or_not': {
-            'first_feature': top_predictions[0],
-            'second_feature': top_predictions[1],
-            'third_feature': top_predictions[2]
-        }
-    }
+    return results_dict

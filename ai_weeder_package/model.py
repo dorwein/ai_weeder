@@ -9,41 +9,42 @@ def load_model() -> keras.Model:
     Return None (but do not Raise) if no model is found
     """
 
-    if MODEL_TARGET == "local":
-        print("Load latest model from local registry...")
 
-        # Get the latest model version name by the timestamp on disk
-        local_model_directory = os.path.join(LOCAL_REGISTRY_PATH, "models")
-        local_model_paths = glob.glob(f"{local_model_directory}/*")
+    print("Load latest model from local registry...")
 
-        if not local_model_paths:
-            return None
+    # Get the latest model version name by the timestamp on disk
+    local_model_directory = os.path.join(LOCAL_REGISTRY_PATH, "models")
+    local_model_paths = os.path.join(f"{local_model_directory}/balanced&augmentated_vgg16_model.keras")
+    print(local_model_paths)
 
-        most_recent_model_path_on_disk = sorted(local_model_paths)[-1]
+    if not local_model_paths:
+        return None
 
-        print("Load latest model from disk...")
+    #most_recent_model_path_on_disk = sorted(local_model_paths)[-1]
 
-        latest_model = keras.models.load_model(most_recent_model_path_on_disk)
+    print("Load latest model from disk...")
 
-        print("✅ Model loaded from local disk")
+    latest_model = keras.models.load_model(local_model_paths)
 
-        return latest_model
+    print("✅ Model loaded from local disk")
 
-def predict(model, img):
+    return latest_model
 
-    '''
-    Get a prediction from the loaded model, UNTESTED
-    '''
+# def predict(model, img):
 
-    pred = model.predict(img)
+#     '''
+#     Get a prediction from the loaded model, UNTESTED
+#     '''
 
-    # Getting class label
-    predicted_class_key = np.argmax(pred, axis=1)[0]
-    predicted_class_label = CLASS_DICT.get(predicted_class_key)
+#     pred = model.predict(img)
 
-    # Getting predition probability
-    probability = np.max(pred, axis=1)[0]
+#     # Getting class label
+#     predicted_class_key = np.argmax(pred, axis=1)[0]
+#     predicted_class_label = CLASS_DICT.get(predicted_class_key)
 
-    print(f"Predicted Plant:  {predicted_class_label}\nProbability:      {probability:.2f}")
+#     # Getting predition probability
+#     probability = np.max(pred, axis=1)[0]
 
-    return probability
+#     print(f"Predicted Plant:  {predicted_class_label}\nProbability:      {probability:.2f}")
+
+#     return probability

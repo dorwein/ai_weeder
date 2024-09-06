@@ -1,7 +1,0 @@
-
-fastapi
-numpy
-opencv-python
-starlette
-tensorflow == 2.10
-uvicorn

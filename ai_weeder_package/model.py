@@ -1,5 +1,4 @@
 from ai_weeder_package.params import *
-import glob
 import os
 from tensorflow import keras
 
@@ -14,7 +13,7 @@ def load_model() -> keras.Model:
 
     # Get the latest model version name by the timestamp on disk
     local_model_directory = os.path.join(LOCAL_REGISTRY_PATH, "models")
-    local_model_paths = os.path.join(f"{local_model_directory}/balanced&augmentated_vgg16_model.keras")
+    local_model_paths = os.path.join(f"{local_model_directory}/my_model_v81_CIELUV_balanced.keras")
     print(local_model_paths)
 
     if not local_model_paths:
@@ -29,22 +28,3 @@ def load_model() -> keras.Model:
     print("✅ Model loaded from local disk")
 
     return latest_model
-
-# def predict(model, img):
-
-#     '''
-#     Get a prediction from the loaded model, UNTESTED
-#     '''
-
-#     pred = model.predict(img)
-
-#     # Getting class label
-#     predicted_class_key = np.argmax(pred, axis=1)[0]
-#     predicted_class_label = CLASS_DICT.get(predicted_class_key)
-
-#     # Getting predition probability
-#     probability = np.max(pred, axis=1)[0]
-
-#     print(f"Predicted Plant:  {predicted_class_label}\nProbability:      {probability:.2f}")
-
-#     return probability

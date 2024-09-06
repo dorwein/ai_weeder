@@ -3,5 +3,5 @@ numpy
 opencv-python
 python-multipart
 starlette
-tensorflow == 2.10.0
+tensorflow == 2.17.0
 uvicorn

@@ -35,7 +35,7 @@ weeds_dict = {'Black-grass': 'weed' ,
  'Charlock':'weed',
  "Cleavers":'weed',
  "Common Chickweed":'weed',
- "Common wheat":'weed',
+ "Common wheat":'not weed',
  "Fat Hen":'weed',
  "Loose Silky-bent":'weed',
  "Maize":'not weed',
@@ -77,6 +77,7 @@ async def receive_image(img: UploadFile=File(...)):
     top_probabilities = [probabilities[0][i] for i in top_indices]
     top_predictions = [weeds_dict[class_name] for class_name in top_classes]
 
+
     results_dict = {
         'types': {
             'first_feature': top_classes[0],
@@ -96,5 +97,20 @@ async def receive_image(img: UploadFile=File(...)):
     }
 
     #uvicorn api.api:app --reload
+
+    if top_probabilities[0] > 0.95:
+        results_dict['final_prediction'] = {top_classes[0],
+                                            float(top_probabilities[0]),
+                                            top_predictions[0]}
+
+    elif (top_probabilities[0] + top_probabilities[1]) > 0.95 & top_predictions[0] == top_predictions[1]:
+        results_dict['final_prediction'] = {f'{top_classes[0]} or {top_classes[1]}',
+                                            float(top_probabilities[0])+float(top_probabilities[1]),
+                                            top_predictions[0]}
+    else:
+        results_dict['final_prediction'] = {'unknown',
+                                            'unknown',
+                                            'unknown'}
+
 
     return results_dict

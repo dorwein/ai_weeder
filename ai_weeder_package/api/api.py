@@ -78,19 +78,6 @@ async def receive_image(img: UploadFile=File(...)):
     top_predictions = [weeds_dict[class_name] for class_name in top_classes]
 
 
-
-    #####
-    #also wenn erste prob grösser 0.95 -> save, wir geben class, prob, weed/no aus
-    #wenn nicht! sagen wir sind nicht sicher
-
-    ####zwei mögliche Fälle:
-    #########schlechte erkennnung
-    #########unbekannte Pflanze
-
-    #### prob 1 +2 rechnen, wenn grösser n ---> weed/ not weed
-    #### wenn kleiner n, bzw gleichverteilung sehr wahrscheinlich unbekannt!
-
-
     results_dict = {
         'types': {
             'first_feature': top_classes[0],

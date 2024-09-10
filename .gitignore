@@ -46,5 +46,5 @@ secrets.toml
 # Notebooks
 notebooks/
 
-# Old packaging
-ai_weeder_package_0/
+# Front end
+ai_weeder_front.py

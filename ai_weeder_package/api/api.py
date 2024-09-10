@@ -10,6 +10,7 @@ from ai_weeder_package.preprocessing import resize_and_expand
 
 import numpy as np
 import cv2
+#from tensorflow.keras.preprocessing import image
 import io
 import json
 
@@ -53,11 +54,12 @@ def index():
 async def receive_image(img: UploadFile=File(...)):
     ### Receiving and decoding the image
     contents = await img.read()
+    
+    #img = io.BytesIO(contents)
+    #img = image.load_img(img)
 
     nparr = np.fromstring(contents, np.uint8)
     cv2_img = cv2.imdecode(nparr, cv2.IMREAD_COLOR) # type(cv2_img) => numpy.ndarray
-    print(cv2_img.shape)
-
 
     #loading model
     model = app.state.model
@@ -97,9 +99,9 @@ async def receive_image(img: UploadFile=File(...)):
          }
     }
 
-    if top_predictions[0] == 'weed':
-        results_dict['weed_confidence'] = prob_weed
+    if prob_weed > prob_not_weed:
+        results_dict['weed_prediction'] = {'type': 'weed', 'probability': prob_weed}
     else:
-        results_dict['weed_confidence'] = prob_not_weed
+        results_dict['weed_prediction'] = {'type': 'crop', 'probability': prob_not_weed}
 
     return results_dict

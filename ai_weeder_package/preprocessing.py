@@ -3,8 +3,8 @@ import cv2 # to install use: pip install opencv-python
 from tensorflow.keras.applications.vgg16 import preprocess_input
 
 def resize_and_expand(img,
-                out_height = 81,    # defaults, can alter to whatever default value we want based on the models
-                out_width = 81,
+                out_height = 128,    # defaults, can alter to whatever default value we want based on the models
+                out_width = 128,
                 expand = True):
     """
     Reshapes an image to desired dimensions

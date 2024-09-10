@@ -10,7 +10,7 @@ from ai_weeder_package.preprocessing import resize_and_expand
 
 import numpy as np
 import cv2
-#from tensorflow.keras.preprocessing import image
+from tensorflow.keras.preprocessing import image
 import io
 import json
 
@@ -54,12 +54,15 @@ def index():
 async def receive_image(img: UploadFile=File(...)):
     ### Receiving and decoding the image
     contents = await img.read()
-    
-    #img = io.BytesIO(contents)
-    #img = image.load_img(img)
 
-    nparr = np.fromstring(contents, np.uint8)
-    cv2_img = cv2.imdecode(nparr, cv2.IMREAD_COLOR) # type(cv2_img) => numpy.ndarray
+    img = io.BytesIO(contents)
+    img = image.load_img(img)
+
+
+    # nparr = np.fromstring(contents, np.uint8)
+    # cv2_img = cv2.imdecode(nparr, cv2.IMREAD_COLOR) # type(cv2_img) => numpy.ndarray
+    # print(cv2_img.shape)
+
 
     #loading model
     model = app.state.model
@@ -68,7 +71,9 @@ async def receive_image(img: UploadFile=File(...)):
     print("model loaded")
 
     #preprocessing the given picture
-    img_processed = resize_and_expand(cv2_img)
+    img_processed = resize_and_expand(img,
+                out_height = 128,    # defaults, can alter to whatever default value we want based on the models
+                out_width = 128)
 
     # predicting the probability
     probabilities = model.predict(img_processed)
@@ -98,6 +103,7 @@ async def receive_image(img: UploadFile=File(...)):
              'second_feature': top_predictions[1]
          }
     }
+
 
     if prob_weed > prob_not_weed:
         results_dict['weed_prediction'] = {'type': 'weed', 'probability': prob_weed}

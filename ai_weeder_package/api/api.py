@@ -68,49 +68,38 @@ async def receive_image(img: UploadFile=File(...)):
     #preprocessing the given picture
     img_processed = resize_and_expand(cv2_img)
 
-    #predicting the probability
+    # predicting the probability
     probabilities = model.predict(img_processed)
     sorted_indices = np.argsort(probabilities[0])[::-1]
-    top_indices = sorted_indices[:3]
 
-    top_classes = [CLASS_NAMES[i] for i in top_indices]
-    top_probabilities = [probabilities[0][i] for i in top_indices]
+    # Getting the top classes and their corresponding probabilities
+    top_classes = [CLASS_NAMES[i] for i in sorted_indices]
+    top_probabilities = [probabilities[0][i] for i in sorted_indices]
     top_predictions = [weeds_dict[class_name] for class_name in top_classes]
+
+    prob_weed = sum([probabilities[0][i] for i, class_name in zip(sorted_indices, top_classes) if weeds_dict[class_name] == 'weed'])
+    prob_not_weed = sum([probabilities[0][i] for i, class_name in zip(sorted_indices, top_classes) if weeds_dict[class_name] == 'not weed'])
+
 
 
     results_dict = {
         'types': {
             'first_feature': top_classes[0],
-            'second_feature': top_classes[1],
-            'third_feature': top_classes[2]
+            'second_feature': top_classes[1]
         },
         'probabilities': {
             'first_feature': float(top_probabilities[0]),
-            'second_feature': float(top_probabilities[1]),
-            'third_feature': float(top_probabilities[2])
+            'second_feature': float(top_probabilities[1])
         },
          'weed_or_not': {
              'first_feature': top_predictions[0],
-             'second_feature': top_predictions[1],
-             'third_feature': top_predictions[2]
+             'second_feature': top_predictions[1]
          }
     }
 
-    #uvicorn api.api:app --reload
-
-    if top_probabilities[0] > 0.95:
-        results_dict['final_prediction'] = {top_classes[0],
-                                            float(top_probabilities[0]),
-                                            top_predictions[0]}
-
-    elif (top_probabilities[0] + top_probabilities[1]) > 0.95 & top_predictions[0] == top_predictions[1]:
-        results_dict['final_prediction'] = {f'{top_classes[0]} or {top_classes[1]}',
-                                            float(top_probabilities[0])+float(top_probabilities[1]),
-                                            top_predictions[0]}
+    if top_predictions[0] == 'weed':
+        results_dict['weed_confidence'] = prob_weed
     else:
-        results_dict['final_prediction'] = {'unknown',
-                                            'unknown',
-                                            'unknown'}
-
+        results_dict['weed_confidence'] = prob_not_weed
 
     return results_dict

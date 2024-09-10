@@ -13,7 +13,7 @@ def load_model() -> keras.Model:
 
     # Get the latest model version name by the timestamp on disk
     local_model_directory = os.path.join(LOCAL_REGISTRY_PATH, "models")
-    local_model_paths = os.path.join(f"{local_model_directory}/my_model_v81_CIELUV_balanced.keras")
+    local_model_paths = os.path.join(f"{local_model_directory}/my_model_v85_CLsegmented.keras")
     print(local_model_paths)
 
     if not local_model_paths:

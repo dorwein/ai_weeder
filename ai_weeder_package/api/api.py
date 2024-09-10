@@ -35,12 +35,12 @@ weeds_dict = {'Black-grass': 'weed' ,
  'Charlock':'weed',
  "Cleavers":'weed',
  "Common Chickweed":'weed',
- "Common wheat":'weed',
+ "Common wheat":'not weed',
  "Fat Hen":'weed',
  "Loose Silky-bent":'weed',
  "Maize":'not weed',
  "Scentless Mayweed":'weed',
- "Shepherd’s Purse":'weed',
+ "Shepherds Purse":'weed',
  "Small-flowered Cranesbill":'weed',
  "Sugar beet":'not weed' }
 
@@ -68,33 +68,38 @@ async def receive_image(img: UploadFile=File(...)):
     #preprocessing the given picture
     img_processed = resize_and_expand(cv2_img)
 
-    #predicting the probability
+    # predicting the probability
     probabilities = model.predict(img_processed)
     sorted_indices = np.argsort(probabilities[0])[::-1]
-    top_indices = sorted_indices[:3]
 
-    top_classes = [CLASS_NAMES[i] for i in top_indices]
-    top_probabilities = [probabilities[0][i] for i in top_indices]
+    # Getting the top classes and their corresponding probabilities
+    top_classes = [CLASS_NAMES[i] for i in sorted_indices]
+    top_probabilities = [probabilities[0][i] for i in sorted_indices]
     top_predictions = [weeds_dict[class_name] for class_name in top_classes]
+
+    prob_weed = sum([probabilities[0][i] for i, class_name in zip(sorted_indices, top_classes) if weeds_dict[class_name] == 'weed'])
+    prob_not_weed = sum([probabilities[0][i] for i, class_name in zip(sorted_indices, top_classes) if weeds_dict[class_name] == 'not weed'])
+
+
 
     results_dict = {
         'types': {
             'first_feature': top_classes[0],
-            'second_feature': top_classes[1],
-            'third_feature': top_classes[2]
+            'second_feature': top_classes[1]
         },
         'probabilities': {
             'first_feature': float(top_probabilities[0]),
-            'second_feature': float(top_probabilities[1]),
-            'third_feature': float(top_probabilities[2])
+            'second_feature': float(top_probabilities[1])
         },
          'weed_or_not': {
              'first_feature': top_predictions[0],
-             'second_feature': top_predictions[1],
-             'third_feature': top_predictions[2]
+             'second_feature': top_predictions[1]
          }
     }
 
-    #uvicorn api.api:app --reload
+    if top_predictions[0] == 'weed':
+        results_dict['weed_confidence'] = prob_weed
+    else:
+        results_dict['weed_confidence'] = prob_not_weed
 
     return results_dict

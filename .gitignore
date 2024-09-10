@@ -48,3 +48,6 @@ notebooks/
 
 # Front end
 ai_weeder_front.py
+
+# Presentation
+ai_weeder_slides.ipynb

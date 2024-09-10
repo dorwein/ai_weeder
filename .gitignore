@@ -45,6 +45,7 @@ secrets.toml
 
 # Notebooks
 notebooks/
+.
 
 # Front end
 ai_weeder_front.py

@@ -40,7 +40,7 @@ weeds_dict = {'Black-grass': 'weed' ,
  "Loose Silky-bent":'weed',
  "Maize":'not weed',
  "Scentless Mayweed":'weed',
- "Shepherd’s Purse":'weed',
+ "Shepherds Purse":'weed',
  "Small-flowered Cranesbill":'weed',
  "Sugar beet":'not weed' }
 

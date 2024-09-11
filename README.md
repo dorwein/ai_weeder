@@ -1,5 +1,5 @@
 
-# AI Weeder
+# AI Weeder 🌱
 
 AI Weeder is an open-source project aimed at automating weed detection using machine learning techniques. The project leverages image recognition and computer vision to identify and classify weeds in real-time, potentially helping to reduce the manual effort required in agriculture and improve the efficiency of crop management.
 

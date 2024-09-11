@@ -9,6 +9,14 @@ AI Weeder is an open-source project aimed at automating weed detection using mac
 - **High Accuracy**: The model is trained to achieve a high degree of accuracy in differentiating between crops and weeds.
 - **Scalable and Flexible**: Can be adapted to different environments and scales, from small farms to larger agricultural operations.
 
+## Data
+
+The data used in this project is available at the following link:
+
+- [V2 Plant Seedlings Dataset](https://www.kaggle.com/datasets/vbookshelf/v2-plant-seedlings-dataset)
+
+This dataset includes images used for training and testing the weed detection model. Make sure to download the data and place it in the appropriate directory before running the code.
+
 ## Installation
 
 To set up the AI Weeder locally, you will need to clone the repository and install the necessary dependencies:
@@ -21,22 +29,21 @@ pip install -r requirements.txt
 
 ## Usage
 
-After installing the dependencies, you can run the main script to start the weed detection process:
+### Training the Model
 
-```bash
-python main.py --image_path [path_to_image]
-```
+1. **Download the Dataset**: Link above ☝️
 
-Replace `[path_to_image]` with the actual path to the image you want to analyze.
+2. **Run the Jupyter Notebooks**: Navigate to the `notebooks/` directory and open the relevant Jupyter notebooks to preprocess the data, train the model, and evaluate its performance.
 
-## Contributing
+3. **Save the Model**: After training, make sure to save the trained model to `models/`
 
-Contributions are welcome! If you find a bug or want to add a feature, feel free to open an issue or create a pull request.
+### Using the Trained Model
 
-## Security
+Once you have trained the model, you can use the API provided in the `ai_weeder_package/api/` directory to make predictions
 
-No security policy has been set up for this project yet. If you discover any security vulnerabilities, please report them directly via GitHub issues.
+## Contributors
 
-## License
-
-This project is licensed under the MIT License. See the LICENSE file for details.
+- [@roisin-o-b](https://github.com/roisin-o-b)
+- [@tbcht](https://github.com/tbcht)
+- [@nicsdann](https://github.com/nicsdann)
+- [@dorwein](https://github.com/dorwein)

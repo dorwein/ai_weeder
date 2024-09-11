@@ -1,6 +1,7 @@
 fastapi
 numpy
 opencv-python
+Pillow
 python-multipart
 starlette
 tensorflow == 2.17.0
